@@ -1,0 +1,124 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>海軍陸戰隊行動通訊平台</title>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <script language="javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+    <script language="javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script src='/socket.io/socket.io.js' type='text/javascript'></script>
+    <script>
+        var id = '<%= locals.session.user._id %>';
+    </script>
+    <script src='/javascripts/views/chat_manage.js' type="text/javascript"></script>
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+
+        #room {
+            background-color: #ddd;
+            margin-bottom: 1em;
+        }
+
+        #btn_createRoom {
+            margin-left: 10px;
+        }
+
+        #btn_selectRoom {
+            margin-left: 10px;
+        }
+
+        #btn_selectPeople {
+            margin-left: 10px;
+        }
+
+        #room-list {
+            float: right;
+            overflow: auto;
+        }
+
+        #room-list div {
+            border-bottom: 1px solid #eee;
+        }
+
+        #room-list div:hover {
+            background-color: #ddd;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <% include header.ejs %>
+    <div class="container ">
+    <div class='row'>
+        <button id="btn_selectRoom" type="button" class="btn btn-primary btn-lg col-xs-11 col-sm-11 col-md-6 col-lg-6"
+            data-toggle="modal" data-target="#selectRoom">
+        選擇聊天室
+        </button>
+    </div>
+    <br>
+    <div class='row'>
+        <button id="btn_selectPeople" type="button" class=" btn btn-primary btn-lg col-xs-11 col-sm-11 col-md-6 col-lg-6"
+            data-toggle="modal" data-target="#selectAllDepartment">
+        選擇對象
+        </button>
+    </div>
+    <% if (locals.session.user.auth.canCreateRoom == 'true') { %>
+    <br>
+    <div class='row'>
+        <button id="createRoom" style="margin-left: 10px;" type="button" class="btn btn-primary btn-lg col-xs-11 col-sm-11 col-md-6 col-lg-6">新增聊天室</button>
+    </div>
+    <% } %>
+    <div id="selectRoom" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div id="selectRoomList" class="list-group">
+                    <div class="list-group-item">
+                        <span class="label label-default">選擇聊天室</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="selectAllDepartment" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div id="selectAllDepartmentList" class="list-group">
+                    <div class="list-group-item">
+                        <span class="label label-default">選擇處組</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="selectPeople" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="selectPeopleList" class="list-group">
+                <div class="list-group-item">
+                    <span class="label label-default">選擇對象</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

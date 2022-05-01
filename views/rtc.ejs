@@ -1,0 +1,130 @@
+﻿<!doctype html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>海軍陸戰隊行動通訊平台</title>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="/javascripts/jquery-1.11.3.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="//cdn.temasys.com.sg/skylink/skylinkjs/0.6.x/skylink.complete.min.js"></script>
+    <script>
+        var skylink = new Skylink();
+        var room = '<%= session.room %>';
+
+        skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
+            if(!isSelf) {
+                var vid = document.createElement('video');
+
+                vid.autoplay = true;
+                vid.id = peerId;
+                //vid.muted = false; // Added to avoid feedback when testing locally
+                $(vid).addClass("col-xs-12 col-sm-4 col-sm-offset-1");
+                $('.row').append(vid);
+            }
+        });
+
+        skylink.on('incomingStream', function(peerId, stream, isSelf) {
+            if(!isSelf) {
+                var vid = document.getElementById(peerId);
+                attachMediaStream(vid, stream);
+            }
+        });
+
+        skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
+            var vid = document.getElementById(peerId);
+            $(vid).remove();
+        });
+
+        skylink.on('mediaAccessSuccess', function(stream) {
+            var vid = document.getElementById('myvideo');
+            attachMediaStream(vid, stream);
+        });
+
+        skylink.init({
+            apiKey: '612a8056-92b5-4fca-8a70-4fc12ce51edc',
+            defaultRoom: 'MMCP'
+        }, function() {
+            skylink.joinRoom(room, {
+                audio: true,
+                video: true
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <% include header.ejs %>
+    <div class="container">
+        <!-- <form action='/login' method='post'>
+            <div class="row" style="margin-bottom: 5px">
+                <div class="col-sm-8 col-xs-8 col-md-6 text-left">
+                    <input type='hidden' value='<%= locals.session.IMEI %>' id='IMEI' name='user[IMEI]' />
+                    <input id='name' type='text' name='user[name]' placeholder='帳號 (身份證字號)' class='form-control' />
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 5px">
+                <div class="col-sm-8 col-xs-8 col-md-6 text-left">
+                    <input id='password' type='password' name='user[pass]' placeholder='密碼' class='form-control' />
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 5px">
+                <div class="col-sm-10 col-xs-10 col-md-8 text-left">
+                    <input class="btn-primary btn" id='register' type='button' value='帳號申請'  />
+                    <input class="btn-primary btn" type='submit' value='登入'  />
+                    <a class="btn-success btn" href="/app.apk">APP載點</a>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 5px">
+                <div class="col-sm-8 col-xs-8 col-md-6 text-left">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 col-xs-8 col-md-6 text-left">
+                    <p id="errMsg" style="color:red">
+                        <% if (locals.errMsg) { %>
+                        <%= locals.errMsg %>
+                        <% } %>
+                    </p>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-10 col-xs-10 col-md-8 text-left">
+                    <p style="color:red">
+                        <b>因應系統功能擴充，資料結構有所更動</b>
+                    </p>
+                    <p style="color:red">
+                        <b>請各位長官重新撥冗註冊</b>
+                    </p>
+                </div>
+            </div>
+        </form> -->
+        <div class="row">
+            <video id="myvideo" style="transform: rotateY(-180deg);" autoplay muted class="col-xs-12 col-sm-6"></video>
+        </div>
+    </div>
+</body>
+
+</html>

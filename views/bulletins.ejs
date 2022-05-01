@@ -1,0 +1,41 @@
+﻿<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>海軍陸戰隊行動通訊平台</title>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="/javascripts/jquery-1.11.3.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/views/bulletins.js"></script>
+</head>
+<body>
+    <%- include header.ejs %>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 text-left">
+                <textarea placeholder="請在此輸入公佈欄內容..." class="col-sm-12 col-xs-12 col-md-12" id="content" rows="10" style="display:block; margin-bottom:10px;"></textarea>
+                <input value="送出" type="button" id="btn_send" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>

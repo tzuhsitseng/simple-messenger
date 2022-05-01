@@ -1,0 +1,141 @@
+﻿<!doctype html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>海軍陸戰隊行動通訊平台</title>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        label.error {
+            color: red;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script>
+        var department = '<%= user.department %>';
+        var division = '<%= user.division %>';
+        var jobTitle = '<%= user.jobTitle %>';
+        var account = '<%= user.account %>';
+        var sex = '<%= user.sex %>';
+        var name = '<%= user.name %>';
+        var birth = '<%= user.birth %>';
+        var level = '<%= user.level %>';
+    </script>
+
+    <script src="/javascripts/jquery-1.11.3.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap-datepicker.min.js"></script>
+    <script src="/javascripts/jquery.validate.min.js"></script>
+    <script src="/javascripts/views/member_modify.js"></script>
+</head>
+
+<body>
+    <% include header.ejs %>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7 col-xs-7 text-left">
+                <form class="form-horizontal" action="/chat/memberModify" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="identity">
+                        身分證字號
+                        </label>
+                        <div class="col-sm-10">
+                            <input name="data[identity]" type="text" class="form-control" id="identity" disabled="disabled" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex" class="col-sm-2 control-label">性別</label>
+                        <div id="sex" class="radio col-sm-10">
+                            <label class="radio-inline">
+                            <input type="radio" name="data[sex]" value="男">男</input>
+                            </label>
+                            <label class="radio-inline">
+                            <input type="radio" name="data[sex]" value="女">女</input>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birth" class="col-sm-2 control-label">生日</label>
+                        <div class="col-sm-10">
+                            <input name="data[birth]" type="text" class="form-control" id="birth" readonly="" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input name="data[name]" type="text" class="form-control" id="name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="department" class="col-sm-2 control-label">單位</label>
+                        <div class="col-sm-5">
+                            <select class="form-control" id="department" name="data[department]">
+                            </select>
+                        </div>
+                        <div class="col-sm-5">
+                            <select class="form-control" id="division" name="data[division]" style="display:none">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="level" class="col-sm-2 control-label">級職</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="level" name="data[level]">
+                                <option value="中將">中將</option>
+                                <option value="少將">少將</option>
+                                <option value="上校">上校</option>
+                                <option value="中校">中校</option>
+                                <option value="少校">少校</option>
+                                <option value="上尉">上尉</option>
+                                <option value="中尉">中尉</option>
+                                <option value="少尉">少尉</option>
+                                <option value="一等士官長">一等士官長</option>
+                                <option value="二等士官長">二等士官長</option>
+                                <option value="三等士官長">三等士官長</option>
+                                <option value="上士">上士</option>
+                                <option value="中士">中士</option>
+                                <option value="下士">下士</option>
+                                <option value="上兵">上兵</option>
+                                <option value="一兵">一兵</option>
+                                <option value="二兵">二兵</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobTitle" class="col-sm-2 control-label">職稱</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="jobTitle" name="data[jobTitle]">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="level" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input type='submit' value='確定修改' class='btn-primary btn' />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

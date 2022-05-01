@@ -1,0 +1,76 @@
+﻿<!doctype html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>海軍陸戰隊行動通訊平台</title>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        label.error {
+            color: red;
+        }
+    </style>
+
+    <script src="/javascripts/jquery-1.11.3.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap-datepicker.min.js"></script>
+    <script src="/javascripts/jquery.validate.min.js"></script>
+    <script src="/javascripts/views/room_create.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <% include header.ejs %>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-xs-6 text-left">
+                <form class="form-horizontal" action="/chat/createRoom" method="post">
+                    <div class="form-group">
+                        <label for="division" class="col-sm-2 control-label">隸屬</label>
+                        <div class="radio col-sm-10">
+                            <label>
+                            <input type="radio" name="option" id="all" value="all" checked>
+                            全部
+                            </label>
+                            <label style='margin-left:10px'>
+                            <input type="radio" name="option" id="department" value="<%= session.user.department %>">
+                            <%= session.user.department %>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="room" class="col-sm-2 control-label">聊天室名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="room" name="room"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input id="submit" type='button' value='新增' class='btn-primary btn' />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

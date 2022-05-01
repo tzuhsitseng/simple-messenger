@@ -1,0 +1,175 @@
+﻿<!doctype html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>海軍陸戰隊行動通訊平台</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            padding-top: 70px;
+            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+        }
+
+        label.error {
+            color: red;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery Version 1.11.1 -->
+    <script src="/javascripts/jquery-1.11.3.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+    <script src="/javascripts/bootstrap-datepicker.min.js"></script>
+
+    <script src="/javascripts/jquery.validate.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/getAllDepartmentList',
+                type: 'get',
+                dataType: 'json',
+                success: function(result) {
+                    if (result) {
+                        for (var i = 0; i < result.departmentList.length; i++) {
+                            var dep = result.departmentList[i].name;
+                            var option = $('<option>').val(dep).text(dep);
+                            option.appendTo('#depSelect');
+                        }
+                    }
+                }
+            })
+
+
+            $('#checkOldDepartment').change(function() {
+                $('.department').toggle();
+
+                if (!$('#checkOldDepartment').prop('checked')){
+                    $('#depText').attr('name', 'department');
+                    $('#depSelect').removeAttr('name');
+                } else {
+                    $('#depSelect').attr('name', 'department');
+                    $('#depText').removeAttr('name');
+                    $('#depText').val('');
+                }
+            });
+
+            $('#submit').click(function() {
+                var department = $('#checkOldDepartment').prop('checked') ? $('#depSelect').val() : $('#depText').val();
+                var division = $('#division').val();
+
+                if (department && division) {
+                    $.ajax({
+                        url: '/chat/isHasSameDepartment',
+                        type: 'post',
+                        data: {
+                            dep: department,
+                            div: division
+                        },
+                        success: function(isHasSameDep) {
+                            if (isHasSameDep) {
+                                alert('此部門已存在');
+                            } else {
+                                $.ajax({
+                                    url: '/chat/createDepartment',
+                                    type: 'post',
+                                    data: {
+                                        department: department,
+                                        division: division
+                                    },
+                                    success: function(result) {
+                                        if (result) {
+                                            alert('新增成功');
+                                            $('#depText').val('');
+                                            $('#division').val('');
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }               
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <% include header.ejs %>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-xs-6 text-left">
+                <form class="form-horizontal" action="/chat/createDepartment" method="post">
+                    <div class="form-group">
+                      <label for="department" class="col-sm-2 control-label">
+                        單位
+                      </label>
+                      <div class="col-sm-10 department">
+                        <input id="depText" name="department" type="text" class="form-control"/>
+                      </div>
+                      <div class="col-sm-10 department" style="display:none;">
+                        <select id="depSelect" class="form-control">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                            <label>
+                                <input name="data[isOldDep]" type="checkbox" id="checkOldDepartment">既有單位
+                            </label>
+                        </div>
+                        </div>
+                        
+                    </div>
+                    
+
+                    <div class="form-group">
+                      <label for="division" class="col-sm-2 control-label">部門</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="division" name="division"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <input type='button' id='submit' value='新增' class='btn-primary btn' />
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+</body>
+
+</html>
